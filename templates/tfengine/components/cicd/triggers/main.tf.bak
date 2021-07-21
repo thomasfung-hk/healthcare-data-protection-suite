@@ -13,13 +13,7 @@
 # limitations under the License.
 
 module "validate_triggers" {
-  {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
-  cloud_source_repository = var.cloud_source_repository
-	{{- else }}
-  source                  = "./github_trigger_module"
-  github                  = var.github
-  {{- end}}
+  source                  = "./validate"
 
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
@@ -27,6 +21,12 @@ module "validate_triggers" {
   skip                    = var.triggers.validate.skip
   run_on_push             = var.triggers.validate.run_on_push
   run_on_schedule         = var.triggers.validate.run_on_schedule
+  {{- if has . "cloud_source_repository"}}
+  cloud_source_repository = var.cloud_source_repository
+  {{- end}}
+  {{- if has . "github"}}
+  github                  = var.github
+  {{- end}}
   project_id              = var.project_id
   scheduler_region        = var.scheduler_region
   terraform_root          = var.terraform_root
@@ -34,13 +34,7 @@ module "validate_triggers" {
 }
 
 module "plan_triggers" {
-  {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
-  cloud_source_repository = var.cloud_source_repository
-	{{- else }}
-  source                  = "./github_trigger_module"
-  github                  = var.github
-  {{- end}}
+  source                  = "./plan"
 
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
@@ -48,6 +42,12 @@ module "plan_triggers" {
   skip                    = var.triggers.plan.skip
   run_on_push             = var.triggers.plan.run_on_push
   run_on_schedule         = var.triggers.plan.run_on_schedule
+  {{- if has . "cloud_source_repository"}}
+  cloud_source_repository = var.cloud_source_repository
+  {{- end}}
+  {{- if has . "github"}}
+  github                  = var.github
+  {{- end}}
   project_id              = var.project_id
   scheduler_region        = var.scheduler_region
   terraform_root          = var.terraform_root
@@ -55,20 +55,20 @@ module "plan_triggers" {
 }
 
 module "apply_triggers" {
-  {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
-  cloud_source_repository = var.cloud_source_repository
-	{{- else }}
-  source                  = "./github_trigger_module"
-  github                  = var.github
-  {{- end}}
+  source                  = "./apply"
 
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
   name                    = var.name
   skip                    = var.triggers.apply.skip
-  run_on_push             = false
+  run_on_push             = var.triggers.apply.run_on_push
   run_on_schedule         = var.triggers.apply.run_on_schedule
+  {{- if has . "cloud_source_repository"}}
+  cloud_source_repository = var.cloud_source_repository
+  {{- end}}
+  {{- if has . "github"}}
+  github                  = var.github
+  {{- end}}
   project_id              = var.project_id
   scheduler_region        = var.scheduler_region
   terraform_root          = var.terraform_root

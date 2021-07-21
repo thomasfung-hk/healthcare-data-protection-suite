@@ -56,24 +56,6 @@ variable "run_on_schedule" {
   description = "Whether or not to be automatically triggered according a specified schedule. The schedule is specified using unix-cron format at Eastern Standard Time (EST)."
 }
 
-#{{- if has . "cloud_source_repository"}}
-
-variable "cloud_source_repository" {
-  type = object({
-    name = string
-  })
-  description = <<EOF
-    Config for Google Cloud Source Repository.
-
-    IMPORTANT: Cloud Source Repositories does not support code review or presubmit runs.
-    If you set both plan and apply to run at the same time, they will conflict and may error out.
-    To get around this, for 'shared' and 'prod' environment, set 'apply' trigger to not 'run_on_push', and for other environments, do not specify the 'plan' trigger block and let 'apply' trigger 'run_on_push'.
-  EOF
-}
-#{{- end}}
-
-#{{- if has . "github"}}
-
 variable "github" {
   type = object({
     owner = string
@@ -81,7 +63,6 @@ variable "github" {
   })
   description = "Config for GitHub Cloud Build triggers."
 }
-#{{- end}}
 
 variable "project_id" {
   type        = string

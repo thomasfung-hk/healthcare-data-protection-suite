@@ -24,23 +24,9 @@ resource "google_cloudbuild_trigger" "env_push_trigger" {
     "${var.terraform_root_prefix}**",
   ]
 
-  dynamic "github" {
-    for_each = var.github_blocks
-    content = {
-      owner = var.github.owner
-      name  = var.github.name
-      pull_request = {
-        branch = "^${var.branch_name}$"
-      }
-    }
-  }
-
-  dynamic "trigger_template" {
-    for_each = var.csr_blocks
-    content = {
-      repo_name   = var.cloud_source_repository.name
-      branch_name = "^${var.branch_name}$"
-    }
+  trigger_template {
+    repo_name   = var.cloud_source_repository.name
+    branch_name = "^${var.branch_name}$"
   }
 
   filename = "${var.terraform_root_prefix}cicd/configs/tf-${var.trigger_name}.yaml"
@@ -52,9 +38,7 @@ resource "google_cloudbuild_trigger" "env_push_trigger" {
 
   depends_on = [
     google_project_service.services,
-    #{{- if has $ "cloud_source_repository"}}
     google_sourcerepo_repository.configs,
-    #{{- end}}
   ]
 }
 
@@ -72,24 +56,12 @@ resource "google_cloudbuild_trigger" "scheduled_env" {
     "${var.terraform_root_prefix}**",
   ]
 
-  dynamic "github" {
-    for_each = var.github_blocks
-    content = {
-      owner = var.github.owner
-      name  = var.github.name
-      push = {
-        branch = "^${var.branch_name}$"
-      }
-    }
+  trigger_template {
+    repo_name   = var.cloud_source_repository.name
+    branch_name = "^${var.branch_name}$"
   }
 
-  dynamic "trigger_template" {
-    for_each = var.csr_blocks
-    content = {
-      repo_name   = var.cloud_source_repository.name
-      branch_name = "^${var.branch_name}$"
-    }
-  }
+  github = null
 
   filename = "${var.terraform_root_prefix}cicd/configs/tf-${var.trigger_name}.yaml"
 
@@ -100,9 +72,7 @@ resource "google_cloudbuild_trigger" "scheduled_env" {
 
   depends_on = [
     google_project_service.services,
-    #{{- if has $ "cloud_source_repository"}}
     google_sourcerepo_repository.configs,
-    #{{- end}}
   ]
 }
 
