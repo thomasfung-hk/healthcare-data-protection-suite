@@ -21,6 +21,7 @@ module "validate_triggers" {
   github                  = var.github
   {{- end}}
 
+  trigger_name            = "validate"
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
   name                    = var.name
@@ -42,6 +43,7 @@ module "plan_triggers" {
   github                  = var.github
   {{- end}}
 
+  trigger_name            = "plan"
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
   name                    = var.name
@@ -63,12 +65,13 @@ module "apply_triggers" {
   github                  = var.github
   {{- end}}
 
+  trigger_name            = "apply"
   branch_name             = var.branch_name
   managed_dirs            = var.managed_dirs
   name                    = var.name
   skip                    = var.triggers.apply.skip
   run_on_push             = false
-  run_on_schedule         = var.triggers.apply.run_on_schedule
+  run_on_schedule         = ""
   project_id              = var.project_id
   scheduler_region        = var.scheduler_region
   terraform_root          = var.terraform_root
