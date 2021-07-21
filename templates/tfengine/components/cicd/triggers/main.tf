@@ -13,11 +13,11 @@
 # limitations under the License.
 
 module "validate_triggers" {
+  source                  = "./trigger_module"
+
   {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
   cloud_source_repository = var.cloud_source_repository
 	{{- else }}
-  source                  = "./github_trigger_module"
   github                  = var.github
   {{- end}}
 
@@ -34,11 +34,11 @@ module "validate_triggers" {
 }
 
 module "plan_triggers" {
+  source                  = "./trigger_module"
+
   {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
   cloud_source_repository = var.cloud_source_repository
 	{{- else }}
-  source                  = "./github_trigger_module"
   github                  = var.github
   {{- end}}
 
@@ -55,11 +55,11 @@ module "plan_triggers" {
 }
 
 module "apply_triggers" {
+  source                  = "./trigger_module"
+
   {{- if has . "cloud_source_repository"}}
-  source                  = "./csr_trigger_module"
   cloud_source_repository = var.cloud_source_repository
 	{{- else }}
-  source                  = "./github_trigger_module"
   github                  = var.github
   {{- end}}
 
