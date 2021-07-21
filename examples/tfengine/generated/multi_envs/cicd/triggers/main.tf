@@ -13,49 +13,52 @@
 # limitations under the License.
 
 module "validate_triggers" {
-  source = "./validate"
-
-  branch_name             = var.branch_name
-  managed_dirs            = var.managed_dirs
-  name                    = var.name
-  skip                    = var.triggers.validate.skip
-  run_on_push             = var.triggers.validate.run_on_push
-  run_on_schedule         = var.triggers.validate.run_on_schedule
+  source                  = "./trigger_module"
   cloud_source_repository = var.cloud_source_repository
-  project_id              = var.project_id
-  scheduler_region        = var.scheduler_region
-  terraform_root          = var.terraform_root
-  terraform_root_prefix   = var.terraform_root_prefix
+
+  trigger_name          = "validate"
+  branch_name           = var.branch_name
+  managed_dirs          = var.managed_dirs
+  name                  = var.name
+  skip                  = var.triggers.validate.skip
+  run_on_push           = var.triggers.validate.run_on_push
+  run_on_schedule       = var.triggers.validate.run_on_schedule
+  project_id            = var.project_id
+  scheduler_region      = var.scheduler_region
+  terraform_root        = var.terraform_root
+  terraform_root_prefix = var.terraform_root_prefix
 }
 
 module "plan_triggers" {
-  source = "./plan"
-
-  branch_name             = var.branch_name
-  managed_dirs            = var.managed_dirs
-  name                    = var.name
-  skip                    = var.triggers.plan.skip
-  run_on_push             = var.triggers.plan.run_on_push
-  run_on_schedule         = var.triggers.plan.run_on_schedule
+  source                  = "./trigger_module"
   cloud_source_repository = var.cloud_source_repository
-  project_id              = var.project_id
-  scheduler_region        = var.scheduler_region
-  terraform_root          = var.terraform_root
-  terraform_root_prefix   = var.terraform_root_prefix
+
+  trigger_name          = "plan"
+  branch_name           = var.branch_name
+  managed_dirs          = var.managed_dirs
+  name                  = var.name
+  skip                  = var.triggers.plan.skip
+  run_on_push           = var.triggers.plan.run_on_push
+  run_on_schedule       = var.triggers.plan.run_on_schedule
+  project_id            = var.project_id
+  scheduler_region      = var.scheduler_region
+  terraform_root        = var.terraform_root
+  terraform_root_prefix = var.terraform_root_prefix
 }
 
 module "apply_triggers" {
-  source = "./apply"
-
-  branch_name             = var.branch_name
-  managed_dirs            = var.managed_dirs
-  name                    = var.name
-  skip                    = var.triggers.apply.skip
-  run_on_push             = var.triggers.apply.run_on_push
-  run_on_schedule         = var.triggers.apply.run_on_schedule
+  source                  = "./trigger_module"
   cloud_source_repository = var.cloud_source_repository
-  project_id              = var.project_id
-  scheduler_region        = var.scheduler_region
-  terraform_root          = var.terraform_root
-  terraform_root_prefix   = var.terraform_root_prefix
+
+  trigger_name          = "apply"
+  branch_name           = var.branch_name
+  managed_dirs          = var.managed_dirs
+  name                  = var.name
+  skip                  = var.triggers.apply.skip
+  run_on_push           = false
+  run_on_schedule       = ""
+  project_id            = var.project_id
+  scheduler_region      = var.scheduler_region
+  terraform_root        = var.terraform_root
+  terraform_root_prefix = var.terraform_root_prefix
 }

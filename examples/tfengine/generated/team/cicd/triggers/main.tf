@@ -13,15 +13,16 @@
 # limitations under the License.
 
 module "validate_triggers" {
-  source = "./validate"
+  source = "./trigger_module"
+  github = var.github
 
+  trigger_name          = "validate"
   branch_name           = var.branch_name
   managed_dirs          = var.managed_dirs
   name                  = var.name
   skip                  = var.triggers.validate.skip
   run_on_push           = var.triggers.validate.run_on_push
   run_on_schedule       = var.triggers.validate.run_on_schedule
-  github                = var.github
   project_id            = var.project_id
   scheduler_region      = var.scheduler_region
   terraform_root        = var.terraform_root
@@ -29,15 +30,16 @@ module "validate_triggers" {
 }
 
 module "plan_triggers" {
-  source = "./plan"
+  source = "./trigger_module"
+  github = var.github
 
+  trigger_name          = "plan"
   branch_name           = var.branch_name
   managed_dirs          = var.managed_dirs
   name                  = var.name
   skip                  = var.triggers.plan.skip
   run_on_push           = var.triggers.plan.run_on_push
   run_on_schedule       = var.triggers.plan.run_on_schedule
-  github                = var.github
   project_id            = var.project_id
   scheduler_region      = var.scheduler_region
   terraform_root        = var.terraform_root
@@ -45,15 +47,16 @@ module "plan_triggers" {
 }
 
 module "apply_triggers" {
-  source = "./apply"
+  source = "./trigger_module"
+  github = var.github
 
+  trigger_name          = "apply"
   branch_name           = var.branch_name
   managed_dirs          = var.managed_dirs
   name                  = var.name
   skip                  = var.triggers.apply.skip
-  run_on_push           = var.triggers.apply.run_on_push
-  run_on_schedule       = var.triggers.apply.run_on_schedule
-  github                = var.github
+  run_on_push           = false
+  run_on_schedule       = ""
   project_id            = var.project_id
   scheduler_region      = var.scheduler_region
   terraform_root        = var.terraform_root

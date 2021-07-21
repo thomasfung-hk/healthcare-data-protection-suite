@@ -31,18 +31,23 @@ variable "managed_dirs" {
   EOF
 }
 
-variable "name" {
+variable "trigger_name" {
+  type        = string
+  description = "Name of the trigger."
+}
+
+variable "env_name" {
   type        = string
   description = "Name of the environment."
 }
 
 variable "skip" {
-  type        = boolean
+  type        = bool
   description = "Whether or not create module resources."
 }
 
 variable "run_on_push" {
-  type        = boolean
+  type        = bool
   description = "Whether or not to be automatically triggered from a PR/push to branch."
 }
 
@@ -50,7 +55,6 @@ variable "run_on_schedule" {
   type        = string
   description = "Whether or not to be automatically triggered according a specified schedule. The schedule is specified using unix-cron format at Eastern Standard Time (EST)."
 }
-
 variable "github" {
   type = object({
     owner = string

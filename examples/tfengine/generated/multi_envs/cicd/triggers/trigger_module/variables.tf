@@ -31,18 +31,23 @@ variable "managed_dirs" {
   EOF
 }
 
-variable "name" {
+variable "trigger_name" {
+  type        = string
+  description = "Name of the trigger."
+}
+
+variable "env_name" {
   type        = string
   description = "Name of the environment."
 }
 
 variable "skip" {
-  type        = boolean
+  type        = bool
   description = "Whether or not create module resources."
 }
 
 variable "run_on_push" {
-  type        = boolean
+  type        = bool
   description = "Whether or not to be automatically triggered from a PR/push to branch."
 }
 
@@ -50,13 +55,17 @@ variable "run_on_schedule" {
   type        = string
   description = "Whether or not to be automatically triggered according a specified schedule. The schedule is specified using unix-cron format at Eastern Standard Time (EST)."
 }
-
-variable "github" {
+variable "cloud_source_repository" {
   type = object({
-    owner = string
-    name  = string
+    name = string
   })
-  description = "Config for GitHub Cloud Build triggers."
+  description = <<EOF
+    Config for Google Cloud Source Repository.
+
+    IMPORTANT: Cloud Source Repositories does not support code review or presubmit runs.
+    If you set both plan and apply to run at the same time, they will conflict and may error out.
+    To get around this, for 'shared' and 'prod' environment, set 'apply' trigger to not 'run_on_push', and for other environments, do not specify the 'plan' trigger block and let 'apply' trigger 'run_on_push'.
+  EOF
 }
 
 variable "project_id" {
